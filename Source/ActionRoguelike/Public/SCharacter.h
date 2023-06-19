@@ -20,6 +20,9 @@ public:
 
 protected:
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> ProjectileClass;
+	
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
@@ -34,6 +37,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void MoveForward(float Value);
+	void MoveRight(float Value);
+
+	void PrimaryAttack();
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
