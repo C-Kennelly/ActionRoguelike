@@ -8,6 +8,9 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UInputMappingContext;
+class UInputAction;
+struct FInputActionValue;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
@@ -26,8 +29,20 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputMappingContext* DefaultMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* MoveAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LookAction;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
 
 public:	
 	// Called every frame
@@ -35,5 +50,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 };
