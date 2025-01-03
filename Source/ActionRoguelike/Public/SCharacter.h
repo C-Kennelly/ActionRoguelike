@@ -11,6 +11,7 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+struct FInputActionInstance;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
@@ -18,38 +19,34 @@ class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	ASCharacter();
 
 protected:
-	
+	virtual void BeginPlay() override;
+
+	void Move(const FInputActionInstance& InputInstance);
+	void LookMouse(const FInputActionValue& InputValue);
+
+public:	
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, Category = Input)
 	UInputMappingContext* DefaultMappingContext;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* MoveAction;
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UInputAction* Input_Move;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* LookAction;
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	UPROPERTY(EditDefaultsOnly, Category = Input)
+	UInputAction* Input_LookMouse;
 
 };
